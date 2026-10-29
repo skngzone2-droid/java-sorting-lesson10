@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 10 | Sorting Elements in an Array Using Java</title>
+<style>
+:root{--navy:#12345a;--blue:#1769aa;--sky:#eaf4ff;--ink:#172536;--muted:#5c6b7a;--line:#d6e2ef;--green:#16794b;--red:#b42318;--gold:#f6c453}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#f5f8fc;line-height:1.6}
+header{background:linear-gradient(120deg,#102e52,#1769aa);color:#fff;padding:28px max(20px,calc((100% - 1180px)/2))}
+header h1{margin:8px 0;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.15}header p{max-width:850px}
+.pill{display:inline-block;background:#ffffff20;border:1px solid #ffffff50;border-radius:99px;padding:4px 12px;font-size:.9rem}
+.layout{max-width:1180px;margin:22px auto;padding:0 16px;display:grid;grid-template-columns:245px minmax(0,1fr);gap:22px}
+nav{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;height:max-content;position:sticky;top:12px}
+nav a{display:block;padding:8px 10px;border-radius:8px;color:var(--navy);text-decoration:none;font-size:.94rem}nav a:hover{background:var(--sky)}
+main{min-width:0}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 3px 12px #153d6410}
+h2{color:var(--navy);margin-top:0}h3{color:#174f82} .tag{font-size:.8rem;font-weight:700;color:#15568c;background:var(--sky);border-radius:6px;padding:3px 8px}
+.callout{background:#eef7ff;border-left:4px solid var(--blue);padding:12px 15px;border-radius:8px;margin:14px 0}.tagalog{background:#fff8e5;border-left:4px solid var(--gold);padding:12px 15px;border-radius:8px;margin:14px 0}
+.code{background:#101c2c;color:#e8f1ff;padding:16px;border-radius:10px;overflow:auto;font: .92rem/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}
+button,.button{border:0;border-radius:9px;background:var(--blue);color:#fff;padding:9px 14px;cursor:pointer;font-weight:650;margin:4px 4px 4px 0}button:hover,.button:hover{background:var(--navy)}button.secondary{background:#e7eff8;color:var(--navy)}button:focus,input:focus,select:focus{outline:3px solid #92c5ff}
+input,select,textarea{border:1px solid #bdccdb;border-radius:8px;padding:9px;font:inherit;max-width:100%}label{display:block;margin:8px 0} .feedback{font-weight:700;margin-top:10px}.good{color:var(--green)}.bad{color:var(--red)}
+.cards{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.num{background:#eaf4ff;border:2px solid #91bfe9;color:#103e68;border-radius:10px;padding:9px 15px;font-size:1.15rem;font-weight:800;min-width:52px;text-align:center}
+svg{max-width:100%;height:auto}.visual{background:#f7fbff;border:1px solid var(--line);border-radius:12px;padding:12px;margin:14px 0}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.progresswrap{height:10px;background:#dce7f2;border-radius:99px;overflow:hidden}.progressbar{height:100%;width:0;background:#28a36a;transition:width .2s}
+.small{color:var(--muted);font-size:.92rem}.question{border-top:1px solid var(--line);padding:12px 0}.hidden{display:none}.step{font-weight:750;color:var(--blue)}footer{text-align:center;color:var(--muted);padding:24px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}nav{position:static}nav .navlinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
+@media print{nav,button{display:none}.layout{display:block}body{background:white}.card{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header>
+ <span class="pill">GRADE 12 ICT • JAVA PROGRAMMING • LESSON 10</span>
+ <h1>Sorting Elements in an Array Using Java</h1>
+ <p>Learn how to arrange numbers, understand Bubble Sort, and read a Java program step by step. Work at your own pace, complete the practice activities, and then take the official Google Forms quiz.</p>
+ <div><label for="studentName">Student name <input id="studentName" placeholder="Enter your full name"></label><label for="studentSection">Grade and section <input id="studentSection" placeholder="e.g., Grade 12 – ICT A"></label></div>
+ <div class="progresswrap" aria-label="Lesson progress"><div class="progressbar" id="progressbar"></div></div>
+ <p class="small" style="color:#e8f3ff"><span id="progressText">0 of 8 sections completed</span> • Progress is stored only in this open page and may reset when the browser is refreshed or closed.</p>
+</header>
+<div class="layout">
+<nav aria-label="Lesson navigation"><strong>Lesson sections</strong><div class="navlinks">
+<a href="#review">1. Review Arrays</a><a href="#sorting">2. What Is Sorting?</a><a href="#bubble">3. Bubble Sort</a><a href="#code">4. Java Code</a><a href="#descending">5. Descending Order</a><a href="#practice">6. Practice Lab</a><a href="#practical">7. Practical Task</a><a href="#forms">8. Submit & Reflect</a></div><p class="small">Mark each section complete as you finish it.</p></nav>
+<main>
+<section class="card" id="review" data-section>
+<span class="tag">PART 1</span><h2>Review: Arrays</h2>
+<p><b>Explanation:</b> An array stores multiple values of the same data type under one variable name. Each value is an <b>element</b>. An <b>index</b> tells the position of an element, and Java array indexes begin at <code>0</code>. <code>numbers.length</code> gives the number of elements.</p>
+<div class="visual"><svg viewBox="0 0 620 140" role="img" aria-label="Array boxes with indexes zero through four and values 40, 10, 30, 20, 50"><text x="10" y="22" font-size="15" fill="#12345a" font-weight="bold">numbers array</text>
+<g font-size="15" text-anchor="middle"><rect x="12" y="38" width="108" height="48" rx="8" fill="#dceeff" stroke="#1769aa"/><rect x="132" y="38" width="108" height="48" rx="8" fill="#dceeff" stroke="#1769aa"/><rect x="252" y="38" width="108" height="48" rx="8" fill="#dceeff" stroke="#1769aa"/><rect x="372" y="38" width="108" height="48" rx="8" fill="#dceeff" stroke="#1769aa"/><rect x="492" y="38" width="108" height="48" rx="8" fill="#dceeff" stroke="#1769aa"/>
+<text x="66" y="68" fill="#12345a" font-weight="bold">40</text><text x="186" y="68" fill="#12345a" font-weight="bold">10</text><text x="306" y="68" fill="#12345a" font-weight="bold">30</text><text x="426" y="68" fill="#12345a" font-weight="bold">20</text><text x="546" y="68" fill="#12345a" font-weight="bold">50</text>
+<text x="66" y="111" fill="#5c6b7a">index 0</text><text x="186" y="111" fill="#5c6b7a">index 1</text><text x="306" y="111" fill="#5c6b7a">index 2</text><text x="426" y="111" fill="#5c6b7a">index 3</text><text x="546" y="111" fill="#5c6b7a">index 4</text></g></svg></div>
+<div class="code">int[] numbers = {40, 10, 30, 20, 50};
+
+for (int i = 0; i &lt; numbers.length; i++) {
+    System.out.println(numbers[i]);
+}</div>
+<p><b>Code explanation:</b> The array has five values. The loop starts at index 0 and continues while <code>i &lt; numbers.length</code>. Each pass prints one element.</p>
+<div class="tagalog"><b>Sa madaling Tagalog:</b> Ang array ay lalagyan ng maraming value sa iisang variable. Ang index ay bilang ng posisyon na nagsisimula sa 0. Ginagamit ang <code>for</code> loop para maipakita ang bawat element.</div>
+<h3>Quick review: What is printed first?</h3><label><input type="radio" name="reviewq" value="40"> 40</label><label><input type="radio" name="reviewq" value="10"> 10</label><label><input type="radio" name="reviewq" value="0"> 0</label><button onclick="checkRadio('reviewq','40','reviewFeedback','Correct! Index 0 contains 40.','Not quite. The first element is at index 0, and its value is 40.')">Check answer</button><div id="reviewFeedback" class="feedback" aria-live="polite"></div>
+<button class="secondary" onclick="completeSection('review')">Mark section complete</button>
+</section>
+
+<section class="card" id="sorting" data-section><span class="tag">PART 2</span><h2>What Is Sorting?</h2>
+<p><b>Explanation:</b> Sorting means arranging data in a chosen order.</p><div class="grid2"><div class="visual"><h3>Ascending: smallest → largest</h3><div class="cards"><span class="num">10</span><span class="num">20</span><span class="num">30</span><span class="num">40</span><span class="num">50</span></div></div><div class="visual"><h3>Descending: largest → smallest</h3><div class="cards"><span class="num">50</span><span class="num">40</span><span class="num">30</span><span class="num">20</span><span class="num">10</span></div></div></div>
+<p>Original array: <code>{40, 10, 30, 20, 50}</code></p><p>Ascending: <code>{10, 20, 30, 40, 50}</code>. Descending: <code>{50, 40, 30, 20, 10}</code>.</p>
+<div class="tagalog"><b>Sa madaling Tagalog:</b> Ang sorting ay pag-aayos ng values. Sa ascending, mula pinakamababa hanggang pinakamataas. Sa descending, mula pinakamataas hanggang pinakamababa.</div>
+<h3>Activity 1: Identify the order</h3><div class="question"><p>1. <code>2, 5, 8, 11</code></p><label><input type="radio" name="order1" value="asc"> Ascending</label><label><input type="radio" name="order1" value="desc"> Descending</label></div>
+<div class="question"><p>2. <code>19, 12, 7, 3</code></p><label><input type="radio" name="order2" value="asc"> Ascending</label><label><input type="radio" name="order2" value="desc"> Descending</label></div>
+<div class="question"><p>3. <code>4, 9, 6</code></p><label><input type="radio" name="order3" value="asc"> Ascending</label><label><input type="radio" name="order3" value="desc"> Descending</label></div><button onclick="checkOrders()">Check answers</button><div id="orderFeedback" class="feedback" aria-live="polite"></div><button class="secondary" onclick="completeSection('sorting')">Mark section complete</button>
+</section>
+
+<section class="card" id="bubble" data-section><span class="tag">PART 3</span><h2>Introduction to Bubble Sort</h2>
+<p><b>Explanation:</b> Bubble Sort compares neighboring (next-to-each-other) elements. For ascending order, if the left value is larger than the right value, the program swaps them. Repeated passes move larger values toward the right side.</p>
+<div class="tagalog"><b>Sa madaling Tagalog:</b> Paghahambingin ang magkatabing numbers. Kung mas malaki ang nasa kaliwa kaysa sa nasa kanan, pagpapalitin sila. Uulitin ang paghahambing hanggang maayos ang pagkakasunod-sunod.</div>
+<h3>Passes for <code>{5, 2, 4, 1}</code></h3><ol><li>Pass 1: <code>{2, 4, 1, 5}</code></li><li>Pass 2: <code>{2, 1, 4, 5}</code></li><li>Pass 3: <code>{1, 2, 4, 5}</code></li></ol>
+<p>Why? Pass 1 compares 5 and 2 (swap), 5 and 4 (swap), then 5 and 1 (swap). Pass 2 compares 2 and 4 (no swap), then 4 and 1 (swap). Pass 3 compares 2 and 1 (swap).</p>
+<h3>Click through the comparisons</h3><div class="visual"><div id="bubbleCards" class="cards"></div><p id="bubbleExplain" aria-live="polite">Press Next Step to begin.</p><button onclick="nextBubble()">Next step</button><button class="secondary" onclick="resetBubble()">Restart</button></div><button class="secondary" onclick="completeSection('bubble')">Mark section complete</button>
+</section>
+
+<section class="card" id="code" data-section><span class="tag">PART 4</span><h2>Java Code for Bubble Sort</h2>
+<div class="code">public class BubbleSortExample {
+    public static void main(String[] args) {
+        int[] numbers = {5, 2, 4, 1};
+
+        for (int i = 0; i &lt; numbers.length - 1; i++) {
+            for (int j = 0; j &lt; numbers.length - 1 - i; j++) {
+                if (numbers[j] &gt; numbers[j + 1]) {
+                    int temp = numbers[j];
+                    numbers[j] = numbers[j + 1];
+                    numbers[j + 1] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i &lt; numbers.length; i++) {
+            System.out.println(numbers[i]);
+        }
+    }
+}</div>
+<h3>Expected output</h3><div class="code">1
+2
+4
+5</div>
+<ul><li><code>int[] numbers</code> declares an integer array.</li><li>The outer loop repeats passes through the array.</li><li>The inner loop compares neighboring elements during a pass.</li><li><code>if (numbers[j] &gt; numbers[j + 1])</code> checks whether the pair is in the wrong order for ascending sorting.</li><li><code>temp</code> temporarily holds one value so it is not lost during the swap.</li><li>The final loop prints the sorted values.</li></ul>
+<div class="callout"><b>Why is <code>temp</code> needed?</b> If you overwrite <code>numbers[j]</code> before saving its original value, that value is lost. <code>temp</code> safely holds it while the two values exchange places.</div>
+<div class="tagalog"><b>Sa madaling Tagalog:</b> Ang outer loop ay para sa paulit-ulit na passes; ang inner loop ay para sa paghahambing ng magkatabing values. Ang <code>temp</code> ay pansamantalang taguan ng value habang nagpapalitan ang dalawang number.</div>
+<h3>Activity 3: Predict the output</h3><p>After ascending Bubble Sort, what is the output order for <code>{7, 3, 6}</code>?</p><label><input type="radio" name="predict" value="7,3,6"> 7, 3, 6</label><label><input type="radio" name="predict" value="3,6,7"> 3, 6, 7</label><label><input type="radio" name="predict" value="6,3,7"> 6, 3, 7</label><button onclick="checkRadio('predict','3,6,7','predictFeedback','Correct! Ascending means smallest to largest.','Try arranging the values from smallest to largest.')">Check answer</button><div id="predictFeedback" class="feedback" aria-live="polite"></div>
+<h3>Activity 4: Complete the code</h3><p>For ascending Bubble Sort, choose the condition that detects a pair in the wrong order.</p><select id="operator"><option value="">Choose an operator</option><option value=">">&gt;</option><option value="<">&lt;</option><option value="==">==</option></select><button onclick="checkOperator()">Check answer</button><div id="operatorFeedback" class="feedback" aria-live="polite"></div><button class="secondary" onclick="completeSection('code')">Mark section complete</button>
+</section>
+
+<section class="card" id="descending" data-section><span class="tag">PART 5</span><h2>Sorting in Descending Order</h2>
+<p>To sort from largest to smallest, change the comparison operator from <code>&gt;</code> to <code>&lt;</code>.</p><div class="code">if (numbers[j] &lt; numbers[j + 1]) {
+    int temp = numbers[j];
+    numbers[j] = numbers[j + 1];
+    numbers[j + 1] = temp;
+}</div>
+<p>For <code>{5, 2, 4, 1}</code>, the expected descending output is:</p><div class="code">5
+4
+2
+1</div>
+<div class="tagalog"><b>Sa madaling Tagalog:</b> Para descending, kapag mas maliit ang nasa kaliwa kaysa sa nasa kanan, pagpapalitin sila para mapunta sa unahan ang mas malaking number.</div>
+<h3>Quick comparison</h3><p>Choose the descending order of <code>{8, 1, 5}</code>.</p><label><input type="radio" name="descq" value="1,5,8"> 1, 5, 8</label><label><input type="radio" name="descq" value="8,5,1"> 8, 5, 1</label><label><input type="radio" name="descq" value="5,8,1"> 5, 8, 1</label><button onclick="checkRadio('descq','8,5,1','descFeedback','Correct! Descending is largest to smallest.','Remember: descending starts with the largest value.')">Check answer</button><div id="descFeedback" class="feedback" aria-live="polite"></div><button class="secondary" onclick="completeSection('descending')">Mark section complete</button>
+</section>
+
+<section class="card" id="practice" data-section><span class="tag">PART 6</span><h2>Practice Lab</h2><h3>Activity 2: Arrange the numbers</h3><p>Click the number cards in ascending order. Your choices will appear below.</p><div id="arrangeCards" class="cards"></div><p><b>Your order:</b> <span id="chosenNumbers">None yet</span></p><button onclick="checkArrange()">Check answer</button><button class="secondary" onclick="resetArrange()">Try again</button><div id="arrangeFeedback" class="feedback" aria-live="polite"></div>
+<h3>Activity 5: Sorting challenge</h3><p>Watch the algorithm sort a small set of numbers, one comparison at a time.</p><label>Choose a number set:
+<select id="challengeSet"><option value="5,2,4,1">5, 2, 4, 1</option><option value="9,3,7,2">9, 3, 7, 2</option><option value="6,1,8,4">6, 1, 8, 4</option></select></label><button onclick="startChallenge()">Start / Reset challenge</button><button onclick="challengeNext()">Next comparison</button><div id="challengeCards" class="cards"></div><p id="challengeText" aria-live="polite">Start the challenge to see a comparison.</p><button class="secondary" onclick="completeSection('practice')">Mark section complete</button>
+</section>
+
+<section class="card" id="practical" data-section><span class="tag">PART 7</span><h2>Practical Activity: My Number Sorting Program</h2>
+<p><b>Task:</b> Create a Java program that stores five integers in an array and displays them in ascending order using Bubble Sort.</p><p><b>Required target output</b> (this is the expected result, not the full solution):</p><div class="code">Original Numbers:
+40
+10
+30
+20
+50
+
+Sorted Numbers:
+10
+20
+30
+40
+50</div>
+<p>Write your own complete Java program in your Java editor. This browser module does not compile Java.</p>
+<label><input type="checkbox" class="checkitem"> I declared an integer array.</label><label><input type="checkbox" class="checkitem"> I displayed the original numbers.</label><label><input type="checkbox" class="checkitem"> I used nested <code>for</code> loops.</label><label><input type="checkbox" class="checkitem"> I used an <code>if</code> statement to compare neighboring elements.</label><label><input type="checkbox" class="checkitem"> I swapped values correctly.</label><label><input type="checkbox" class="checkitem"> I displayed the sorted numbers.</label>
+<div class="callout"><b>Self-check:</b> The sorted output should be 10, 20, 30, 40, 50. Do not reveal or copy a complete solution without first attempting the task.</div>
+<button class="secondary" onclick="completeSection('practical')">Mark section complete</button>
+</section>
+
+<section class="card" id="forms" data-section><span class="tag">PART 8</span><h2>Official Quiz and Student Submission</h2>
+<p>Practice scores in this module are for learning only. Complete the official quiz and reflection through the teacher's Google Forms links.</p>
+<div class="callout"><b>Official Google Forms Quiz:</b><br><span id="quizLinkText">https://docs.google.com/forms/d/e/1FAIpQLScsL76X7rx5ykNy-8vS6Uj9eHkalNYIEeDi3Sem2BYBK7g4Aw/viewform?usp=publish-editor</span><br><a id="quizLink" class="button hidden" target="_blank" rel="noopener">Open official quiz</a></div>
+<h3>Reflection preview</h3><label>What did you learn about sorting arrays?<textarea id="reflection" rows="3" placeholder="Write a short reflection..."></textarea></label><label>Which part of Bubble Sort was most difficult?<select id="difficult"><option value="">Choose one</option><option>Understanding the loops</option><option>Comparing neighboring elements</option><option>Swapping values with temp</option><option>Tracing each pass</option><option>Writing the complete program</option><option>Nothing was difficult</option></select></label>
+<button onclick="showSummary()">Show completion summary</button><div id="summary" class="callout hidden"></div><button class="secondary" onclick="completeSection('forms')">Mark section complete</button>
+</section>
+<section class="card"><h2>Key terms</h2><ul><li><b>Array:</b> a collection of values stored under one variable name.</li><li><b>Element:</b> one value inside an array.</li><li><b>Index:</b> a position number, beginning at 0 in Java.</li><li><b>Sorting:</b> arranging values in a chosen order.</li><li><b>Ascending:</b> smallest to largest.</li><li><b>Descending:</b> largest to smallest.</li><li><b>Algorithm:</b> a step-by-step method for solving a problem.</li><li><b>Swap:</b> exchange the positions/values of two elements.</li><li><b>Bubble Sort:</b> a sorting algorithm that compares neighboring elements and swaps out-of-order pairs.</li></ul></section>
+</main></div><footer>Grade 12 ICT • Lesson 10 • Sorting Elements in an Array Using Java</footer>
+<script>
+const completed=new Set();const sectionIds=['review','sorting','bubble','code','descending','practice','practical','forms'];
+function completeSection(id){completed.add(id);updateProgress();const el=document.getElementById(id);if(el){let m=el.querySelector('.completionMsg');if(!m){m=document.createElement('p');m.className='completionMsg good';m.textContent='✓ Section marked complete';el.appendChild(m)}}}
+function updateProgress(){document.getElementById('progressbar').style.width=(completed.size/sectionIds.length*100)+'%';document.getElementById('progressText').textContent=completed.size+' of '+sectionIds.length+' sections completed'}
+function checkRadio(name,correct,id,yes,no){const x=document.querySelector('input[name="'+name+'"]:checked');const el=document.getElementById(id);el.textContent=x&&x.value===correct?yes:no;el.className='feedback '+(x&&x.value===correct?'good':'bad')}
+function checkOrders(){let correct=0;[['order1','asc'],['order2','desc'],['order3','none']].forEach(([n,v])=>{const x=document.querySelector('input[name="'+n+'"]:checked');if(x&&x.value===v)correct++});const f=document.getElementById('orderFeedback');f.textContent='You got '+correct+' of 3 correct. Sequence 1 is ascending; sequence 2 is descending; sequence 3 is neither because it changes direction.';f.className='feedback '+(correct===3?'good':'bad')}
+function checkOperator(){const ok=document.getElementById('operator').value==='>';const f=document.getElementById('operatorFeedback');f.textContent=ok?'Correct! The > operator finds a left value larger than its right neighbor.':'For ascending order, use > so larger left values are swapped to the right.';f.className='feedback '+(ok?'good':'bad')}
+const bubbleSteps=[
+{a:[5,2,4,1],t:'Compare 5 and 2. 5 > 2, so swap them.',next:[2,5,4,1]},
+{a:[2,5,4,1],t:'Compare 5 and 4. 5 > 4, so swap them.',next:[2,4,5,1]},
+{a:[2,4,5,1],t:'Compare 5 and 1. 5 > 1, so swap them.',next:[2,4,1,5]},
+{a:[2,4,1,5],t:'Pass 2: compare 2 and 4. They are already in ascending order; no swap.',next:[2,4,1,5]},
+{a:[2,4,1,5],t:'Compare 4 and 1. 4 > 1, so swap them.',next:[2,1,4,5]},
+{a:[2,1,4,5],t:'Pass 3: compare 2 and 1. 2 > 1, so swap them.',next:[1,2,4,5]}];
+let bi=0,bvals=[5,2,4,1];function renderNums(id,vals){document.getElementById(id).innerHTML=vals.map(n=>'<span class="num">'+n+'</span>').join('')}
+function renderBubble(){renderNums('bubbleCards',bvals)}function nextBubble(){if(bi>=bubbleSteps.length){document.getElementById('bubbleExplain').textContent='Finished: {1, 2, 4, 5}. Restart to repeat.';return}const s=bubbleSteps[bi];bvals=s.next.slice();renderBubble();document.getElementById('bubbleExplain').textContent=s.t;bi++}function resetBubble(){bi=0;bvals=[5,2,4,1];renderBubble();document.getElementById('bubbleExplain').textContent='Press Next Step to begin.'}
+let arrangeChoice=[];const arrangeOriginal=[30,10,40,20];function initArrange(){const shuffled=[30,10,40,20];document.getElementById('arrangeCards').innerHTML=shuffled.map(n=>'<button class="num" style="cursor:pointer" onclick="chooseNum('+n+')">'+n+'</button>').join('');arrangeChoice=[];document.getElementById('chosenNumbers').textContent='None yet';document.getElementById('arrangeFeedback').textContent=''}function chooseNum(n){if(arrangeChoice.includes(n))return;arrangeChoice.push(n);document.getElementById('chosenNumbers').textContent=arrangeChoice.join(', ')}function checkArrange(){const ok=arrangeChoice.join(',')==='10,20,30,40';const f=document.getElementById('arrangeFeedback');f.textContent=ok?'Correct! You arranged the numbers from smallest to largest.':'Not yet. Choose all four numbers in this order: 10, 20, 30, 40. Select Try again to reset.';f.className='feedback '+(ok?'good':'bad')}function resetArrange(){initArrange()}
+let challenge=[],ci=0;function startChallenge(){challenge=document.getElementById('challengeSet').value.split(',').map(Number);ci=0;renderNums('challengeCards',challenge);document.getElementById('challengeText').textContent='Ready. Press Next comparison.'}
+function challengeNext(){if(!challenge.length)startChallenge();if(ci>=challenge.length-1){if(challenge.every((v,i)=>i===0||challenge[i-1]<=v)){document.getElementById('challengeText').textContent='Sorted! Final result: '+challenge.join(', ');return}ci=0}
+let j=ci; // one adjacent comparison per click, repeated passes handled by state below
+if(typeof challenge.pass==='undefined'){challenge.pass=0;challenge.j=0}
+let k=challenge.j;if(k>=challenge.length-1-challenge.pass){challenge.pass++;challenge.j=0;k=0}
+if(challenge.pass>=challenge.length-1){document.getElementById('challengeText').textContent='Sorted! Final result: '+challenge.join(', ');renderNums('challengeCards',challenge);return}
+let msg='Compare '+challenge[k]+' and '+challenge[k+1]+'. ';if(challenge[k]>challenge[k+1]){let t=challenge[k];challenge[k]=challenge[k+1];challenge[k+1]=t;msg+='Swap them.'}else msg+='No swap needed.';challenge.j++;renderNums('challengeCards',challenge);document.getElementById('challengeText').textContent=msg+' Current array: '+challenge.join(', ')}
+function showSummary(){const name=document.getElementById('studentName').value||'(not entered)';const sec=document.getElementById('studentSection').value||'(not entered)';const checks=[...document.querySelectorAll('.checkitem')].filter(x=>x.checked).length;const div=document.getElementById('summary');div.classList.remove('hidden');div.innerHTML='<b>Completion summary</b><br>Student: '+escapeHtml(name)+'<br>Grade/section: '+escapeHtml(sec)+'<br>Lesson sections marked complete: '+completed.size+' / 8<br>Practical checklist: '+checks+' / 6 checked<br>Reflection: '+escapeHtml(document.getElementById('reflection').value||'(not entered)')+'<br>Most difficult part: '+escapeHtml(document.getElementById('difficult').value||'(not selected)')+'<br><br>This summary is not automatically sent to your teacher. Submit your information through the official Google Form.'}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+initArrange();renderBubble();
+</script>
+</body></html>
